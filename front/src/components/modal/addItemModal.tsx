@@ -70,7 +70,7 @@ function AddItemModal (props: {showModal: boolean, toggleShowModal: () => void})
 	const inputsArr : myInputPropType[] = [{
 			name: "Название",
 			callback: setNameValue, 
-			pattern: /^[a-zA-Z0-9]{3,20}$/,
+			pattern: /^[a-zA-Z0-9!$()*+.<>?[\]^{|}` ]{3,20}$/,
 			type:"text",
 			id:"modalName"
 		},
