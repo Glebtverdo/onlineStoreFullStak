@@ -46,7 +46,7 @@ function MainShopScreen() {
 			maxWidth="xl"
 			>
 			{!isUSerError && userData?.role === "Admin" && <AddNewItemButton/>}
-			{isLoading && <CircularProgress size={100} style={{marginLeft:"calc(50vw - 75px)"}}/>}
+			{isLoading && <CircularProgress size={100} style={{marginLeft:"calc(50% - 75px)"}}/>}
 			{itemsData &&
 			<>
 				<Grid container spacing={4}>

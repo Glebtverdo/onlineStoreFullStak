@@ -25,6 +25,10 @@ function EditableInput (props: { text: string, lable: string, style: {},
 				let strToNum = parseInt(event.target.value);
 				if((!isNaN(strToNum)))
 				{
+					if (strToNum < 0)
+					{
+						strToNum *= -1;
+					}
 					setInputValue(strToNum.toString())
 				} else if(event.target.value === "")
 				{

@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { itemsAPI } from "../../store/APIs/itemsAPI"
 import { userAPI } from "../../store/APIs/userAPI";
 import { Navigate } from "react-router-dom"
-import { Container, Button, Box} from "@mui/material";
+import { Container,  CircularProgress, Button, Box} from "@mui/material";
 import { basketItemsAPI } from "../../store/APIs/basketItemsAPI";
 import {useSelector, useDispatch} from "react-redux";
 import { toggleShwoModal } from "../../store/slicers/tokenSlicer";
@@ -15,10 +15,10 @@ const serverAdress = process.env.REACT_APP_BACK_SERVER
 
 function ItemScreen(){
 	const id = parseInt(useParams().id ?? "-1");
-	const {data: itemData, isError: isItemError} = itemsAPI.useFetchOneItemQuery(id);
+	const {data: itemData, isError: isItemError, isLoading: isItemsLoading} = itemsAPI.useFetchOneItemQuery(id);
 	const {token}= useSelector((state: RootState)=> state.tokenReducer);
 	const dispatch = useDispatch();
-	const [addNewItem, {isLoading}] = basketItemsAPI.useAddBasketItemMutation();
+	const [addNewItem, {isLoading: isBasketItemLoading}] = basketItemsAPI.useAddBasketItemMutation();
 	const {data: basketItemData,  isError: isBasketItemError} = basketItemsAPI.useFetchOneBasketItemQuery({
 		token: token as string, id
 	});
@@ -95,11 +95,12 @@ function ItemScreen(){
 	return(
 		<>
 			{isItemError && <Navigate replace={true} to={"/Error404"} />}
+			{isItemsLoading && <CircularProgress size={100} style={{marginLeft:"calc(50% - 75px)"}}/>}
 			{ itemData && <Container maxWidth="xl"
-			 style={{display: "flex", flexWrap: "nowrap", marginTop: "5vh"}}>
-					<Box style={{
-						height: "80vh",
-						width: "calc(100vw/2)",
+			 sx={{flexDirection:{xs: "column", sm: "row"}, display: "flex", flexWrap: "nowrap", marginTop: "5vh", justifyContent: "center"}}>
+					<Box sx={{
+						height: {xs:"50vh",sm:"80vh"},
+						width: {xs: "100%",sm: "60%"},
 						backgroundImage: "url('" + serverAdress + itemData.img + "')",
 						backgroundRepeat: "no-repeat",
 						backgroundSize: "100% 100%",
@@ -110,7 +111,7 @@ function ItemScreen(){
 						{ isBasketItemError && 
 						<Button variant="outlined" size="large"
 						 sx={{color: "#7ca1da", borderColor: "#6385ba"}}
-						 disabled={isLoading || itemData.restCount === 0} onClick={addBasketItem} >
+						 disabled={isBasketItemLoading || itemData.restCount === 0} onClick={addBasketItem} >
 							{itemData.restCount > 0 && "Добaвить в корзину"}
 							{itemData.restCount === 0 && "Нет в наличие"}
 						</Button>}
