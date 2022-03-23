@@ -2,7 +2,7 @@ import { Box, Typography, IconButton, TextField, Tooltip } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { itemsAPI } from "../../store/APIs/itemsAPI";
 import MyAlert from "../alert/myAlert";
 import {useSelector} from "react-redux";
@@ -18,7 +18,11 @@ function EditableInput (props: { text: string, lable: string, style: {},
 	const [errorMessadge, setErrorMessadge] = useState("");
 	const [showAlert, setShowAlert] = useState(false);
 	const {token}= useSelector((state: RootState)=> state.tokenReducer);
-
+	
+	useEffect(() => {
+		setInputValue(text)
+	}, [text])
+		
 	const chekInputValue = (event: ChangeEvent<HTMLInputElement>) =>{
 			if (type === "number")
 			{

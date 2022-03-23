@@ -96,7 +96,7 @@ function ButtonsIncDec(props: {basketItemCnt: number, basketItemId: number | nul
 
 	return (
 		<>
-			<Box sx={{border: "solid 2px #6385ba", justifyContent: "space-evenly" ,  display: "flex", maxWidth:"100px", borderRadius: "4px"}}>
+			<Box sx={{border: "solid 2px #6385ba", justifyContent: "space-evenly" ,  display: "flex", maxWidth:"60%", borderRadius: "4px"}}>
 				<IconButton size="small" className={classes.butonsIncDec}
 					onClick={async () => await buttonsHandler(decrement)}
 					disabled={ isDecrementLoading || isChangingCntLoading || isIncrementLoading}
@@ -105,7 +105,7 @@ function ButtonsIncDec(props: {basketItemCnt: number, basketItemId: number | nul
 				</IconButton>
 				<Input
 				value={inputValue}
-				sx={{textAlignLast: "center"}}
+				sx={{textAlignLast: "center", minWidth:"40%"}}
 				disabled={ isDecrementLoading || isChangingCntLoading || isIncrementLoading}
 				disableUnderline={true} className={classes.inputForCounter}
 				onChange={(e) => {
