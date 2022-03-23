@@ -14,7 +14,7 @@ function EditableInput (props: { text: string, lable: string, style: {},
 	const {text, lable, style, isAdmin, prefix, type, id} = props;
 	const [showInput, setShowInput] = useState(false);
 	const [inputValue, setInputValue] = useState(text);
-	const [changeItem, {isLoading, isError}] = itemsAPI.useChangeItemMutation();
+	const [changeItem, {isLoading}] = itemsAPI.useChangeItemMutation();
 	const [errorMessadge, setErrorMessadge] = useState("");
 	const [showAlert, setShowAlert] = useState(false);
 	const {token}= useSelector((state: RootState)=> state.tokenReducer);
@@ -42,7 +42,7 @@ function EditableInput (props: { text: string, lable: string, style: {},
 	const sendData = async () => {
 		if (inputValue !== text){
 			const item = await changeItem({data: {id, [lable]: inputValue}, token: token as string}) as any;
-			if (isError){
+			if (item.hasOwnProperty("error")){
 				setErrorMessadge(item.error);
 				setShowAlert(true);
 			}else{

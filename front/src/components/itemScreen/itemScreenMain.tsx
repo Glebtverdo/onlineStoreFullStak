@@ -22,7 +22,7 @@ function ItemScreen(){
 	const {data: basketItemData,  isError: isBasketItemError} = basketItemsAPI.useFetchOneBasketItemQuery({
 		token: token as string, id
 	});
-	const [deleteItem, {isError: isDeletError}] = itemsAPI.useDelItemMutation();
+	const [deleteItem] = itemsAPI.useDelItemMutation();
 	const {data: userData, isError: isUserError} = userAPI.useCheckTokenQuery(token as string);
 	const isAdmin = userData && !isUserError ? userData.role === "Admin"  ? true : false : false;
 	const [showAlert, setShowAlert] = useState(false)
@@ -52,9 +52,7 @@ function ItemScreen(){
 		if (token)
 		{
 			const item = await deleteItem({id, token}) as any;
-			if (isDeletError){
-				console.log(item);
-				
+			if (item.hasOwnProperty("error")){
 				popUpAlert(item.error.data.message)
 			}
 		}
